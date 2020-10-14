@@ -38,11 +38,25 @@ Airplane.prototype.land = function () {
     - Give instances of Person a method `.toString()`:
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
+function Person(paramName, paramAge) {
+  this.name = paramName;
+  this.age = paramAge;  
+  this.stomach = [];
+  }
+    Person.prototype.eat = function (someFood){
+          if(this.stomach.length < 10){
+            this.stomach.push(someFood)            
+          }
+        }
+    Person.prototype.poop = function(){
+          this.stomach = []          
+        }
+    Person.prototype.toString = function(){
+          return `${this.name}, ${this.age}`
+        }
 
-function Person() {
 
-}
-
+    
 /*
   TASK 2
     - Write a Car constructor that initializes `model` and `milesPerGallon` from arguments.
@@ -57,9 +71,18 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(paramModel, paramMilesPerGallon) {
+  this.model = paramModel;
+  this.milesPerGallon = paramMilesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
 }
+Car.prototype.fill = function (gallons){
+  this.tank += gallons;
+  }
+
+
+
 
 /*
   TASK 3
@@ -68,18 +91,29 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(names, ages, favoriteToy) {
+  Person.call(this, names, ages);
+  this.favoriteToy = favoriteToy;
 }
+Baby.prototype = Object.create(Person.prototype)
+
+Baby.prototype.play = function(){
+  return `Playing with ${this.favoriteToy}`; 
+}
+
+
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window bidning is bad practice. (this) is on the global scope and calls all of javascript. Will return undefined in strict mode
+  2. implicit binding only applies to objects with methods. It looks to the left of the . to invoke a function 
+  3. explicit binding will use .call immediatly invokes the function and passes in arguments 1 at a time
+  .apply immediatly invokes the function and passes in an array
+  .bind we pass in the arguments 1 by 1 but does not immediatly invoke the function, instead it returns a brand new function that can be invoked later
+  4. New binding, Uses the new key word constructs a new object and "this" points to it
+  when a function is invoked as a construstor function using a 'new' object keyword "this" points to the new object thats created.
 */
 
 
